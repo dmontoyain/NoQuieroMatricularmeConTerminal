@@ -23,5 +23,10 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
             Pen p = new Pen(c, 0.3f);
             e.Graphics.DrawRectangle(p, 0, 0, this.Width, this.Height);
         }
+
+        private void buttonOK_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

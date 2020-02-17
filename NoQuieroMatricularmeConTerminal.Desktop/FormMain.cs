@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinFormsControlLibrary;
 
 namespace NoQuieroMatricularmeConTerminal.Desktop
 {
@@ -19,7 +20,7 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            new FormLogin().ShowDialog();
+            UIControls.DimBackground(this, new FormLogin());
         }
     }
 }
