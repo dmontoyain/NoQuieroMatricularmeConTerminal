@@ -13,6 +13,7 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
 {
     public partial class FormMain : Form
     {
+
         public FormMain()
         {
             InitializeComponent();
@@ -20,7 +21,21 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
+            StartSession();
             UIControls.DimBackground(this, new FormLogin());
+        }
+
+        private void StartSession()
+        {
+            try
+            {
+                SSHSessionManager session = new SSHSessionManager(UPRCampus.Mayaguez);
+
+                MessageBox.Show(session.Start());
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }
