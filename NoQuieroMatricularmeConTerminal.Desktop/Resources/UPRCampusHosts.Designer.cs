@@ -61,7 +61,7 @@ namespace NoQuieroMatricularmeConTerminal.Desktop.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to rumad.upr.edu.
+        ///   Looks up a localized string similar to rumad.uprm.edu.
         /// </summary>
         internal static string Mayaguez {
             get {

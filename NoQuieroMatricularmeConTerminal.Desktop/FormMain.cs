@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using WinFormsControlLibrary;
+﻿// <copyright file="FormMain.cs" company="Dagoberto Montoya">
+// Copyright (c) Dagoberto Montoya. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace NoQuieroMatricularmeConTerminal.Desktop
 {
+    using System;
+    using System.Windows.Forms;
+    using WinFormsControlLibrary;
+
     public partial class FormMain : Form
     {
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormMain"/> class.
+        /// </summary>
         public FormMain()
         {
             InitializeComponent();
         }
 
-        private void buttonStart_Click(object sender, EventArgs e)
+        private void ButtonStart_Click(object sender, EventArgs e)
         {
             StartSession();
+
             UIControls.DimBackground(this, new FormLogin());
         }
 

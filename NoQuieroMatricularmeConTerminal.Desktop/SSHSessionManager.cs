@@ -1,13 +1,13 @@
-﻿using Chilkat;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="SSHSessionManager.cs" company="Dagoberto Montoya">
+// Copyright (c) Dagoberto Montoya. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace NoQuieroMatricularmeConTerminal.Desktop
 {
+    using System;
+    using Renci.SshNet;
+
     public enum UPRCampus
     {
         None,
@@ -20,17 +20,55 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
 
     public class SSHSessionManager
     {
+        private string hostname = string.Empty;
+        private int port = 0;
+        private ConnectionInfo connectionInfo = null;
+
+        private string username = string.Empty;
+        private string password = string.Empty;
 
         public UPRCampus UPRCampus { get; private set; } = UPRCampus.None;
 
-        string hostname = string.Empty;
-        int port = 0;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SSHSessionManager"/> class. This call provides a set of commands and functions the user uses to interact with their created session.
+        /// </summary>
+        /// <param name="uprcampus">Must receive one of the valid UPR campus supported in the application.</param>
         public SSHSessionManager(UPRCampus uprcampus)
         {
             this.UPRCampus = uprcampus;
 
-            Initialize();
+            this.Initialize();
+        }
+
+        /// <summary>
+        /// Attempts to open a SSH connection to the campus server. This connection is to be reused throughout the user navigation.
+        /// </summary>
+        /// <returns>Message returned by the UPR Campus session start.</returns>
+        public string Start()
+        {
+            string message = string.Empty;
+
+            try
+            {
+                using (var sshclient = new SshClient(this.connectionInfo))
+                {
+                    sshclient.Connect();
+
+                    using (var shellStream = sshclient.CreateShellStream("student", 0, 0, 0, 0, 4096))
+                    {
+                        shellStream.WriteLine("5");
+                        message = shellStream.Read();
+                    }
+
+                    sshclient.Disconnect();
+                }
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+            }
+
+            return message;
         }
 
         private void Initialize()
@@ -40,57 +78,31 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
                 case UPRCampus.Mayaguez:
                     this.hostname = Resources.UPRCampusHosts.Mayaguez;
                     this.port = 22;
+                    this.username = "estudiante";
                     break;
                 default:
                     throw new ApplicationException("Ssh session for campus 'None' can't be initialized. Send a valid campus.");
             }
+
+            this.CreateConnection();
         }
 
-        private void UnlockChilkat()
+        private void CreateConnection()
         {
-            string message = string.Empty;
-            // property after unlocking.  For example:
-            Chilkat.Global glob = new Chilkat.Global();
-            bool success = glob.UnlockBundle("Anything for 30-day trial");
-            if (success != true)
+            try
             {
-                return;
-            }
+                this.connectionInfo = null;
 
-            int status = glob.UnlockStatus;
-            if (status == 2)
-            {
+                this.connectionInfo = new ConnectionInfo(this.hostname, this.port, this.username,
+                new AuthenticationMethod[]
+                {
+                    // Pasword based Authentication
+                    new PasswordAuthenticationMethod(this.username, this.password),
+                });
             }
-            else
+            catch (Exception)
             {
             }
-
-
-        }
-
-        public string Start()
-        {
-            UnlockChilkat();
-            string message = string.Empty;
-
-
-            Ssh ssh = new Chilkat.Ssh();
-
-            bool success = ssh.Connect(this.hostname, this.port);
-
-            if (!success)
-            {
-                message = ssh.LastErrorText;
-            }
-
-            int channelNum;
-            channelNum = ssh.OpenSessionChannel();
-            if (channelNum < 0)
-            {
-                message = ssh.LastErrorText;
-            }
-
-            return message;
         }
     }
 }

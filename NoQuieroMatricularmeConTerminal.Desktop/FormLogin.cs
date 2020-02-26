@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿// <copyright file="FormLogin.cs" company="Dagoberto Montoya">
+// Copyright (c) Dagoberto Montoya. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace NoQuieroMatricularmeConTerminal.Desktop
 {
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
     public partial class FormLogin : Form
     {
         public FormLogin()
@@ -24,7 +23,7 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
             e.Graphics.DrawRectangle(p, 0, 0, this.Width, this.Height);
         }
 
-        private void buttonOK_Click(object sender, EventArgs e)
+        private void ButtonOK_Click(object sender, EventArgs e)
         {
 
         }
