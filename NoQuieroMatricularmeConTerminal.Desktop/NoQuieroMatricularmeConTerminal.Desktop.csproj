@@ -146,6 +146,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UPRCampusHosts.resx</DependentUpon>
     </Compile>
+    <Compile Include="UPRPortals\UPRMPortal.cs" />
+    <Compile Include="UPRPortals\UPRPortal.cs" />
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>

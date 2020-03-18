@@ -8,6 +8,7 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
     using System;
     using System.Text;
     using Microsoft.Extensions.Logging;
+    using NoQuieroMatricularmeConTerminal.Desktop.UPRPortals;
     using Renci.SshNet;
 
     public enum UPRCampus
@@ -93,9 +94,7 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
             switch (this.UPRCampus)
             {
                 case UPRCampus.Mayaguez:
-                    this.hostname = Resources.UPRCampusHosts.Mayaguez;
-                    this.port = 22;
-                    this.username = "estudiante";
+                    UPRPortal uprportal = new UPRMPortal();
                     break;
                 default:
                     throw new ApplicationException("Ssh session for campus 'None' can't be initialized. Send a valid campus.");
