@@ -6,6 +6,8 @@
 namespace NoQuieroMatricularmeConTerminal.Desktop
 {
     using System;
+    using System.Text;
+    using Microsoft.Extensions.Logging;
     using Renci.SshNet;
 
     public enum UPRCampus
@@ -23,11 +25,16 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
         private string hostname = string.Empty;
         private int port = 0;
         private ConnectionInfo connectionInfo = null;
+        private SshClient sshClient = null;
 
         private string username = string.Empty;
         private string password = string.Empty;
 
+        private ILogger logger = null;
+
         public UPRCampus UPRCampus { get; private set; } = UPRCampus.None;
+
+        public string ErrorMessage { get; private set; } = string.Empty;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SSHSessionManager"/> class. This call provides a set of commands and functions the user uses to interact with their created session.
@@ -40,35 +47,45 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
             this.Initialize();
         }
 
+        public SSHSessionManager(UPRCampus uprcampus, ILogger logger)
+        {
+            this.UPRCampus = uprcampus;
+
+            this.Initialize();
+
+            this.logger = logger;
+        }
+
         /// <summary>
         /// Attempts to open a SSH connection to the campus server. This connection is to be reused throughout the user navigation.
         /// </summary>
         /// <returns>Message returned by the UPR Campus session start.</returns>
         public string Start()
         {
-            string message = string.Empty;
+            StringBuilder rawMessage = new StringBuilder();
 
             try
             {
-                using (var sshclient = new SshClient(this.connectionInfo))
+                using (var shellStream = this.sshClient.CreateShellStream("student", 0, 0, 0, 0, 4096))
                 {
-                    sshclient.Connect();
-
-                    using (var shellStream = sshclient.CreateShellStream("student", 0, 0, 0, 0, 4096))
+                    while (shellStream.DataAvailable)
                     {
-                        shellStream.WriteLine("5");
-                        message = shellStream.Read();
+                        rawMessage.Append(shellStream.Read());
                     }
-
-                    sshclient.Disconnect();
                 }
             }
             catch (Exception ex)
             {
-                message = ex.Message;
+                this.ErrorMessage = ex.Message;
+                System.IO.File.AppendAllText("sshtest.txt", this.ErrorMessage);
             }
 
-            return message;
+
+            System.IO.File.AppendAllText("sshtest.txt", rawMessage.ToString());
+
+            string message = rawMessage.ToString();
+            string[] splitmsg = message.Split(new char[] { '\u001b' });
+            return message.ToString();
         }
 
         private void Initialize()
@@ -87,6 +104,11 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
             this.CreateConnection();
         }
 
+        private void ClearLocalParams()
+        {
+            this.ErrorMessage = string.Empty;
+        }
+
         private void CreateConnection()
         {
             try
@@ -96,11 +118,13 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
                 this.connectionInfo = new ConnectionInfo(this.hostname, this.port, this.username,
                 new AuthenticationMethod[]
                 {
-                    // Pasword based Authentication
                     new PasswordAuthenticationMethod(this.username, this.password),
                 });
+
+                this.sshClient = new SshClient(this.connectionInfo);
+                this.sshClient.Connect();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }

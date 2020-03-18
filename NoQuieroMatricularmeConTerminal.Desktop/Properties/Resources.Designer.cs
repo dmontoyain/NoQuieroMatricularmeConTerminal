@@ -63,6 +63,16 @@ namespace NoQuieroMatricularmeConTerminal.Desktop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Delete_64 {
+            get {
+                object obj = ResourceManager.GetObject("Delete_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap upr_rum {
             get {
                 object obj = ResourceManager.GetObject("upr_rum", resourceCulture);

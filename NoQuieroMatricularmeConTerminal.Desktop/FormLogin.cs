@@ -25,7 +25,11 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
 
         private void ButtonOK_Click(object sender, EventArgs e)
         {
+        }
 
+        private void BtnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

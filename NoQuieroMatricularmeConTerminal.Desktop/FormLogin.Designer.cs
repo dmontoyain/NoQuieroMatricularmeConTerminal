@@ -38,6 +38,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.ButtonOK = new System.Windows.Forms.Button();
+            this.BtnClose = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
@@ -121,7 +122,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI Semibold", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(670, 9);
+            this.label5.Location = new System.Drawing.Point(359, 21);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(108, 47);
             this.label5.TabIndex = 8;
@@ -130,9 +131,11 @@
             // ButtonOK
             // 
             this.ButtonOK.BackColor = System.Drawing.Color.Green;
+            this.ButtonOK.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.ButtonOK.FlatAppearance.BorderSize = 3;
             this.ButtonOK.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ButtonOK.ForeColor = System.Drawing.Color.White;
-            this.ButtonOK.Location = new System.Drawing.Point(304, 374);
+            this.ButtonOK.Location = new System.Drawing.Point(288, 377);
             this.ButtonOK.Name = "ButtonOK";
             this.ButtonOK.Size = new System.Drawing.Size(227, 47);
             this.ButtonOK.TabIndex = 9;
@@ -140,11 +143,24 @@
             this.ButtonOK.UseVisualStyleBackColor = false;
             this.ButtonOK.Click += new System.EventHandler(this.ButtonOK_Click);
             // 
+            // BtnClose
+            // 
+            this.BtnClose.BackColor = System.Drawing.Color.Red;
+            this.BtnClose.BackgroundImage = global::NoQuieroMatricularmeConTerminal.Desktop.Properties.Resources.Delete_64;
+            this.BtnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BtnClose.Location = new System.Drawing.Point(763, 0);
+            this.BtnClose.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.BtnClose.Name = "BtnClose";
+            this.BtnClose.Size = new System.Drawing.Size(48, 50);
+            this.BtnClose.TabIndex = 11;
+            this.BtnClose.UseVisualStyleBackColor = false;
+            this.BtnClose.Click += new System.EventHandler(this.BtnClose_Click);
+            // 
             // panel1
             // 
             this.panel1.BackgroundImage = global::NoQuieroMatricularmeConTerminal.Desktop.Properties.Resources.upr_rum;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Location = new System.Drawing.Point(12, 12);
+            this.panel1.Location = new System.Drawing.Point(6, 7);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(206, 79);
             this.panel1.TabIndex = 10;
@@ -154,7 +170,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(810, 466);
+            this.ClientSize = new System.Drawing.Size(811, 438);
+            this.Controls.Add(this.BtnClose);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.ButtonOK);
             this.Controls.Add(this.label5);
@@ -188,5 +205,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button ButtonOK;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button BtnClose;
     }
 }
