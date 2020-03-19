@@ -11,6 +11,8 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
 
     public partial class FormMain : Form
     {
+        SSHSessionManager session = null;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FormMain"/> class.
         /// </summary>
@@ -30,11 +32,10 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
         {
             try
             {
-                SSHSessionManager session = new SSHSessionManager(UPRCampus.Mayaguez);
+                this.session = new SSHSessionManager(UPRCampus.Mayaguez);
 
-                MessageBox.Show(session.Start());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
         }

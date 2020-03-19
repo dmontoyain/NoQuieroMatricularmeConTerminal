@@ -9,25 +9,40 @@ namespace NoQuieroMatricularmeConTerminal.Desktop.UPRPortals
 {
     public abstract class UPRPortal
     {
-        public int State { get; private set; } = 0;
+        protected int State { get; set; } = 0;
 
-        public abstract int Port { get; }
+        protected int Port { get; private set; }
 
-        public abstract string HostName { get; }
+        protected string HostName { get; private set; }
 
-        public abstract string Username { get; }
+        protected string Username { get; private set; }
 
-        public abstract string Password { get; }
+        protected string Password { get; private set; }
 
         public SshClient SshClient { get; private set; } = null;
 
         public ConnectionInfo ConnectionInfo { get; private set; } = null;
 
+        public Dictionary<int, string> MenuOptions { get; private set; } = new Dictionary<int, string>();
+
+        public string Header { get; private set; } = string.Empty;
+
+        public string Message { get; private set; } = string.Empty;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UPRPortal"/> class.
         /// </summary>
-        public UPRPortal()
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="hostname"></param>
+        /// <param name="port"></param>
+        public UPRPortal(string username, string password, string hostname, int port)
         {
+            this.Username = username;
+            this.Password = password;
+            this.HostName = hostname;
+            this.Port = port;
+
             Initialize();
         }
 
@@ -42,6 +57,8 @@ namespace NoQuieroMatricularmeConTerminal.Desktop.UPRPortals
             this.SshClient = new SshClient(this.ConnectionInfo);
             this.SshClient.Connect();
         }
+
+        public abstract void Open();
 
         public abstract void Start();
 

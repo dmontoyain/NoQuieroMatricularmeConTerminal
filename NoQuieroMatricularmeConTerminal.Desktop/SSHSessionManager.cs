@@ -23,15 +23,8 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
 
     public class SSHSessionManager
     {
-        private string hostname = string.Empty;
-        private int port = 0;
-        private ConnectionInfo connectionInfo = null;
-        private SshClient sshClient = null;
-
-        private string username = string.Empty;
-        private string password = string.Empty;
-
         private ILogger logger = null;
+        private UPRPortal UPRPortal = null;
 
         public UPRCampus UPRCampus { get; private set; } = UPRCampus.None;
 
@@ -61,32 +54,9 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
         /// Attempts to open a SSH connection to the campus server. This connection is to be reused throughout the user navigation.
         /// </summary>
         /// <returns>Message returned by the UPR Campus session start.</returns>
-        public string Start()
+        public void Start()
         {
-            StringBuilder rawMessage = new StringBuilder();
-
-            try
-            {
-                using (var shellStream = this.sshClient.CreateShellStream("student", 0, 0, 0, 0, 4096))
-                {
-                    while (shellStream.DataAvailable)
-                    {
-                        rawMessage.Append(shellStream.Read());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this.ErrorMessage = ex.Message;
-                System.IO.File.AppendAllText("sshtest.txt", this.ErrorMessage);
-            }
-
-
-            System.IO.File.AppendAllText("sshtest.txt", rawMessage.ToString());
-
-            string message = rawMessage.ToString();
-            string[] splitmsg = message.Split(new char[] { '\u001b' });
-            return message.ToString();
+            this.UPRPortal.Open();
         }
 
         private void Initialize()
@@ -94,13 +64,12 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
             switch (this.UPRCampus)
             {
                 case UPRCampus.Mayaguez:
-                    UPRPortal uprportal = new UPRMPortal();
+                    this.UPRPortal = new UPRMPortal();
                     break;
                 default:
                     throw new ApplicationException("Ssh session for campus 'None' can't be initialized. Send a valid campus.");
             }
 
-            this.CreateConnection();
         }
 
         private void ClearLocalParams()
@@ -108,24 +77,5 @@ namespace NoQuieroMatricularmeConTerminal.Desktop
             this.ErrorMessage = string.Empty;
         }
 
-        private void CreateConnection()
-        {
-            try
-            {
-                this.connectionInfo = null;
-
-                this.connectionInfo = new ConnectionInfo(this.hostname, this.port, this.username,
-                new AuthenticationMethod[]
-                {
-                    new PasswordAuthenticationMethod(this.username, this.password),
-                });
-
-                this.sshClient = new SshClient(this.connectionInfo);
-                this.sshClient.Connect();
-            }
-            catch (Exception ex)
-            {
-            }
-        }
     }
 }
